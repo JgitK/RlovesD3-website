@@ -1,0 +1,24 @@
+body {
+    font-family system-ui, sans-serif;
+    background: #f5f5f5;
+    padding 20px;
+}
+
+h1 {
+    color: #2563eb
+}
+
+.jimfella {
+    color: #dc2626;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fef2f2;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.small {
+    font-size: 14px;
+    color: #6b7280;
+    font-style: italic;
+}
