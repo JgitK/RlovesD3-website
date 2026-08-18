@@ -1,0 +1,111 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #fcd0b1;
+  padding: 20px;
+}
+
+h1 {
+  color: #2563eb;
+}
+
+.jimfella {
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #fef2f2;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.small {
+  font-size: 14px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.card-blue {
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 20px;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+}
+
+.card-white {
+  background: white;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.card-white-title {
+  margin: 0 0 12px 0;
+  color: #1f2937;
+}
+
+.card-white-text {
+  color: #6b7280;
+  margin: 0;
+}
+
+li {
+  padding-left: 20px;
+}
+
+button {
+  background-color: #dc2626;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav-ul {
+  list-style: none;
+}
+
+.nav-li {
+  display: inline;
+}
+
+.nav-a {
+  padding: 20px;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: #b91c1c;
+}
+
+blockquote {
+  border-left: 4px solid #2563eb;
+  padding-left: 16px;
+  margin: 20px 0;
+  color: #6b7280;
+}
+
+.badge {
+  font-size: 12;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
