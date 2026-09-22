@@ -1,0 +1,13 @@
+
+```{ojs}
+const person = {
+    name: "Alice",
+    address: {
+        street: "123 Main St",
+        city: "Wonderland",
+        values: [1,2,3,4,5]
+    }
+};
+
+person.address.values[2]; // Accessing the third value in the array
+```
