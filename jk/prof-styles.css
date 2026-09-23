@@ -49,3 +49,30 @@ button {
 button:hover {
   background-color: #498359;
 }
+
+.chart-section {
+  margin-top: 24px;
+}
+
+.chart-section h3 {
+  font-family: "Cascadia Code", sans-serif;
+  color: #c0a18c;
+}
+
+#bar-chart {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+#bar-chart .domain,
+#bar-chart .tick line {
+  stroke: #d8d8d8;
+}
+
+#bar-chart text {
+  fill: #6b7280;
+  font-size: 12px;
+}
