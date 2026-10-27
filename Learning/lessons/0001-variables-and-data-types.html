@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Variables & Data Types</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3352;
+      --accent: #5b8dee;
+      --accent2: #e87040;
+      --green: #4caf7d;
+      --red: #e85555;
+      --yellow: #f0c040;
+      --text: #dde3f0;
+      --muted: #7a82a0;
+      --code-bg: #12151e;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 0 0 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .lesson-tag {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .mission-bar {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 48px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .mission-bar span { color: var(--accent2); font-weight: 600; }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { margin-top: 52px; }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 24px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    p { margin-bottom: 14px; color: var(--text); }
+    p + p { margin-top: -4px; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Callouts ── */
+    .callout {
+      border-left: 3px solid var(--accent2);
+      background: var(--surface2);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 14.5px;
+    }
+    .callout.tip { border-color: var(--green); }
+    .callout.warn { border-color: var(--yellow); }
+    .callout strong { color: var(--accent2); }
+    .callout.tip strong { color: var(--green); }
+    .callout.warn strong { color: var(--yellow); }
+
+    /* ── Code blocks ── */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+    .code-block .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 14px 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    pre {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.65;
+      padding: 16px 18px;
+      overflow-x: auto;
+      color: var(--text);
+    }
+    .kw  { color: #c792ea; }
+    .str { color: #c3e88d; }
+    .num { color: #f78c6c; }
+    .cmt { color: #546e7a; font-style: italic; }
+    .fn  { color: #82aaff; }
+    .bool { color: #ff9cac; }
+
+    /* ── Interactive REPL ── */
+    .repl {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+    .repl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .repl-header .label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .run-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 5px 14px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .run-btn:hover { background: #4178d6; }
+    textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text);
+      padding: 16px 18px;
+      resize: vertical;
+      min-height: 110px;
+    }
+    .repl-output {
+      border-top: 1px solid var(--border);
+      padding: 10px 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 40px;
+      color: var(--green);
+      white-space: pre-wrap;
+    }
+    .repl-output.has-error { color: var(--red); }
+    .repl-output.empty { color: var(--muted); font-style: italic; }
+
+    /* ── Quiz ── */
+    .quiz {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin: 20px 0;
+    }
+    .quiz h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      font-size: 14px;
+    }
+    .quiz-option:hover { border-color: var(--accent); background: var(--surface2); }
+    .quiz-option input[type="radio"] { accent-color: var(--accent); }
+    .quiz-option.correct { border-color: var(--green); background: rgba(76,175,125,.08); }
+    .quiz-option.wrong   { border-color: var(--red);   background: rgba(232,85,85,.08);   }
+    .quiz-feedback { margin-top: 12px; font-size: 14px; display: none; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { color: var(--green); }
+    .quiz-feedback.wrong   { color: var(--red); }
+    .check-btn {
+      margin-top: 14px;
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .check-btn:hover { border-color: var(--accent); }
+
+    /* ── Exercise ── */
+    .exercise {
+      background: var(--surface);
+      border: 1px solid var(--accent2);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin: 20px 0;
+    }
+    .exercise-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+    .exercise h4 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+    .hint-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 5px;
+      padding: 5px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: color .15s, border-color .15s;
+    }
+    .hint-btn:hover { color: var(--text); border-color: var(--muted); }
+    .hint { display: none; margin-top: 10px; font-size: 13.5px; color: var(--muted); font-style: italic; }
+    .hint.show { display: block; }
+
+    /* ── Navigation ── */
+    .nav-footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    .nav-footer .next-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* ── Progress ── */
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    #progress-bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width .3s;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 6px;
+      color: #c3e88d;
+    }
+
+    ul, ol { padding-left: 24px; margin: 12px 0; }
+    li { margin-bottom: 6px; }
+
+    .d3-badge {
+      display: inline-block;
+      background: rgba(91,141,238,.15);
+      border: 1px solid rgba(91,141,238,.3);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<header>
+  <span class="lesson-tag">Lesson 1</span>
+  <h1>Variables &amp; Data Types</h1>
+</header>
+<div class="mission-bar">
+  Mission: <span>Build D3 data visualizations for your portfolio &amp; to impress your company</span>
+</div>
+
+<div class="content">
+
+  <!-- ── Intro ── -->
+  <section id="intro">
+    <h2>Why this matters for D3</h2>
+    <p>
+      Every D3 chart starts with data — a collection of numbers, names, and dates.
+      Before you can tell D3 <em>"draw a bar for each of these numbers,"</em> you need
+      to know how JavaScript stores and categorizes values.
+    </p>
+    <p>
+      That's what this lesson is about. By the end you'll know how to declare variables
+      and recognize the five primitive data types. This is the smallest possible step —
+      but everything else builds on it.
+    </p>
+    <div class="callout tip">
+      <strong>Tip:</strong> Every code block below is editable and runnable.
+      Change the values, break things, and observe what happens.
+      That's the fastest way to learn.
+    </div>
+  </section>
+
+  <!-- ── Variables ── -->
+  <section id="variables">
+    <h2>Variables: <code>const</code> and <code>let</code></h2>
+
+    <p>
+      A <strong>variable</strong> is a named container that holds a value.
+      You create one with the keyword <code>const</code> or <code>let</code>, followed by a name, an <code>=</code>, and a value.
+    </p>
+
+    <h3>const — the default</h3>
+    <p>
+      Use <code>const</code> for any value you don't intend to reassign.
+      In D3 code you'll see <code>const</code> everywhere — for datasets, scales, and chart elements.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Example</div>
+      <pre><span class="kw">const</span> city = <span class="str">"Chicago"</span>;
+<span class="kw">const</span> population = <span class="num">2700000</span>;
+
+console.<span class="fn">log</span>(city);        <span class="cmt">// Chicago</span>
+console.<span class="fn">log</span>(population);  <span class="cmt">// 2700000</span></pre>
+    </div>
+
+    <h3>let — when you need to reassign</h3>
+    <p>
+      Use <code>let</code> only when the value needs to change later. A common case is a running total or a loop counter.
+    </p>
+
+    <div class="repl" id="repl-1">
+      <div class="repl-header">
+        <span class="label">Try it</span>
+        <button class="run-btn" onclick="runRepl('repl-1')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-1-code">let score = 0;
+console.log(score);   // 0
+
+score = 42;           // reassign — allowed with let
+console.log(score);   // 42
+
+const name = "Alice";
+console.log(name);
+
+// Try uncommenting the next line — it will throw an error:
+// name = "Bob";</textarea>
+      <div class="repl-output empty" id="repl-1-output">Output will appear here…</div>
+    </div>
+
+    <div class="callout warn">
+      <strong>Never use <code>var</code>.</strong> You'll see it in older JavaScript code.
+      It works differently and causes subtle bugs. Stick to <code>const</code> and <code>let</code>.
+    </div>
+
+    <h3>Naming rules</h3>
+    <ul>
+      <li>Names are case-sensitive: <code>population</code> and <code>Population</code> are different variables.</li>
+      <li>Use <strong>camelCase</strong> by convention: <code>chartWidth</code>, <code>countryName</code>, <code>gdpPerCapita</code>.</li>
+      <li>Names can't start with a number or contain spaces.</li>
+    </ul>
+  </section>
+
+  <!-- ── Data Types ── -->
+  <section id="data-types">
+    <h2>Primitive Data Types</h2>
+
+    <p>
+      Every value in JavaScript has a <strong>type</strong>. The type determines what you can do with the value.
+      For D3, you'll mainly work with three: <em>strings</em>, <em>numbers</em>, and <em>booleans</em>.
+    </p>
+
+    <h3>String — text</h3>
+    <p>
+      Any piece of text. In D3, strings are your labels: country names, categories, axis tick text.
+      Wrap them in single quotes, double quotes, or backticks.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Strings</div>
+      <pre><span class="kw">const</span> country = <span class="str">"France"</span>;
+<span class="kw">const</span> unit     = <span class="str">'million'</span>;
+<span class="kw">const</span> label    = <span class="str">`Population in </span><span class="kw">${</span>country<span class="kw">}</span><span class="str">`</span>;  <span class="cmt">// template literal</span>
+
+console.<span class="fn">log</span>(label);  <span class="cmt">// Population in France</span></pre>
+    </div>
+
+    <p>The backtick version (template literal) lets you embed variables with <code>${variable}</code> — very useful when building D3 tooltips and labels.</p>
+
+    <h3>Number — numeric values</h3>
+    <p>
+      Numbers are what you visualize. Bar heights, circle radii, axis ticks — all numbers.
+      Unlike some languages, JavaScript has just one number type for both integers and decimals.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Numbers</div>
+      <pre><span class="kw">const</span> gdp      = <span class="num">3000000000000</span>;  <span class="cmt">// 3 trillion</span>
+<span class="kw">const</span> latitude  = <span class="num">48.8566</span>;          <span class="cmt">// Paris latitude</span>
+<span class="kw">const</span> yearDelta = gdp * <span class="num">0.03</span>;        <span class="cmt">// arithmetic works directly</span>
+
+console.<span class="fn">log</span>(yearDelta);</pre>
+    </div>
+
+    <h3>Boolean — true or false</h3>
+    <p>
+      A boolean has exactly two possible values: <code>true</code> or <code>false</code>.
+      In D3 you'll use booleans to filter datasets — for example, show only countries where <code>isEU</code> is true.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Booleans</div>
+      <pre><span class="kw">const</span> isEU      = <span class="bool">true</span>;
+<span class="kw">const</span> isVisible = <span class="bool">false</span>;
+
+console.<span class="fn">log</span>(isEU);           <span class="cmt">// true</span>
+console.<span class="fn">log</span>(<span class="num">67</span> > <span class="num">50</span>);        <span class="cmt">// true  — comparisons return booleans</span>
+console.<span class="fn">log</span>(<span class="num">47</span> > <span class="num">50</span>);        <span class="cmt">// false</span></pre>
+    </div>
+
+    <h3>null and undefined — "nothing"</h3>
+    <p>JavaScript has two ways to represent the absence of a value. You'll encounter them when working with real datasets that have missing values.</p>
+    <ul>
+      <li><code>undefined</code> — variable declared but never assigned a value</li>
+      <li><code>null</code> — value explicitly set to "nothing"</li>
+    </ul>
+
+    <div class="repl" id="repl-2">
+      <div class="repl-header">
+        <span class="label">Try it — all five types</span>
+        <button class="run-btn" onclick="runRepl('repl-2')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-2-code">const country    = "Germany";     // string
+const population = 83;            // number
+const isEU       = true;          // boolean
+const noData     = null;          // null
+let   notYet;                     // undefined
+
+console.log(typeof country);      // string
+console.log(typeof population);   // number
+console.log(typeof isEU);         // boolean
+console.log(typeof noData);       // object  ← famous JS quirk!
+console.log(typeof notYet);       // undefined</textarea>
+      <div class="repl-output empty" id="repl-2-output">Output will appear here…</div>
+    </div>
+
+    <div class="callout">
+      <strong>D3 context:</strong> When you load a CSV file in D3, every value arrives as a string —
+      even the numbers. One of the first things you'll do is convert them:
+      <code>const pop = Number("83");</code> → <code>83</code>.
+      Knowing types makes that step obvious rather than confusing.
+    </div>
+  </section>
+
+  <!-- ── Quiz ── -->
+  <section id="quiz">
+    <h2>Check your understanding</h2>
+
+    <div class="quiz" id="q1">
+      <h4>1. You're storing a country name that will never change. Which keyword should you use?</h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> <code>var countryName = "Brazil"</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> <code>let countryName = "Brazil"</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> <code>const countryName = "Brazil"</code></label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q1','c')">Check answer</button>
+      <div class="quiz-feedback" id="q1-feedback"></div>
+    </div>
+
+    <div class="quiz" id="q2">
+      <h4>2. Which of these is a <strong>number</strong>?</h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> <code>"42"</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> <code>42</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> <code>true</code></label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q2','b')">Check answer</button>
+      <div class="quiz-feedback" id="q2-feedback"></div>
+    </div>
+
+    <div class="quiz" id="q3">
+      <h4>3. You're building a chart filter: only show bars where a country's population exceeds 50 million. What type should the result of <code>population > 50</code> be?</h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> String</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Number</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Boolean</label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q3','c')">Check answer</button>
+      <div class="quiz-feedback" id="q3-feedback"></div>
+    </div>
+  </section>
+
+  <!-- ── Exercises ── -->
+  <section id="exercises">
+    <h2>Exercises</h2>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 1</div>
+      <h4>Create a data point</h4>
+      <p>
+        Declare four variables that represent one row of a D3 dataset:
+        a country name, its population (in millions), whether it's in the EU, and a <code>null</code> for missing GDP data.
+        Log all four with <code>console.log</code>.
+      </p>
+      <div class="repl" id="ex1">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex1')">&#9654; Run</button>
+        </div>
+        <textarea id="ex1-code">// Write your code here
+</textarea>
+        <div class="repl-output empty" id="ex1-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Show hint</button>
+      <div class="hint" id="hint1">
+        Start with: <code>const country = "Poland";</code> — then add population, isEU, and gdp. What keyword fits each one?
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 2</div>
+      <h4>Template literal label</h4>
+      <p>
+        Using two variables — a country name and a population number — build a string that reads:
+        <em>"France: 67M"</em>. Use a template literal (backticks + <code>${}</code>).
+        Log the result.
+      </p>
+      <div class="repl" id="ex2">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex2')">&#9654; Run</button>
+        </div>
+        <textarea id="ex2-code">// Write your code here
+</textarea>
+        <div class="repl-output empty" id="ex2-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Show hint</button>
+      <div class="hint" id="hint2">
+        <code>const label = `${country}: ${population}M`;</code>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 3 — stretch</div>
+      <h4>typeof inspection</h4>
+      <p>
+        Create three variables: one string, one number, one boolean. Use <code>typeof</code> to log the type of each.
+        Then try <code>typeof null</code> — what does JavaScript return, and why is that surprising?
+      </p>
+      <div class="repl" id="ex3">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex3')">&#9654; Run</button>
+        </div>
+        <textarea id="ex3-code">// Write your code here
+</textarea>
+        <div class="repl-output empty" id="ex3-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint3')">Show hint</button>
+      <div class="hint" id="hint3">
+        <code>typeof null</code> returns <code>"object"</code> — a known bug in JavaScript that was never fixed for backwards-compatibility reasons. In real code you check for null explicitly: <code>value === null</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Summary ── -->
+  <section id="summary">
+    <h2>What you learned</h2>
+    <ul>
+      <li>Use <code>const</code> by default; <code>let</code> only when you need to reassign.</li>
+      <li>The five primitive types: <strong>string</strong>, <strong>number</strong>, <strong>boolean</strong>, <strong>null</strong>, <strong>undefined</strong>.</li>
+      <li>Use <code>typeof</code> to inspect any value's type (<code>typeof null === "object"</code> is a quirk).</li>
+      <li>Template literals (<code>`text ${variable}`</code>) embed variables inside strings — essential for D3 labels.</li>
+      <li>In D3, CSV data arrives as strings — you'll need to convert numbers explicitly.</li>
+    </ul>
+
+    <div class="callout tip">
+      <strong>Ask your teacher:</strong> If anything in this lesson is unclear, paste your question back into Claude Code.
+      Describe what confused you and ask for another explanation or a different example.
+    </div>
+  </section>
+
+  <!-- ── Footer nav ── -->
+  <div class="nav-footer">
+    <span style="color:var(--muted)">← No previous lesson</span>
+    <span style="color:var(--muted); font-size:13px;">Next: Arrays &amp; Objects →<br><em style="font-size:12px;">(coming after you complete the exercises)</em></span>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+  // ── REPL runner ──
+  function runRepl(id) {
+    const code = document.getElementById(id + '-code').value;
+    const outputEl = document.getElementById(id + '-output');
+
+    const logs = [];
+    const origLog = console.log;
+    console.log = (...args) => {
+      logs.push(args.map(a => {
+        if (typeof a === 'object' && a !== null) return JSON.stringify(a);
+        return String(a);
+      }).join(' '));
+    };
+
+    try {
+      // eslint-disable-next-line no-eval
+      eval(code);
+      outputEl.textContent = logs.length ? logs.join('\n') : '(no output)';
+      outputEl.className = 'repl-output';
+    } catch (e) {
+      outputEl.textContent = '⚠ ' + e.message;
+      outputEl.className = 'repl-output has-error';
+    } finally {
+      console.log = origLog;
+    }
+  }
+
+  // ── Quiz checker ──
+  const quizFeedback = {
+    q1: {
+      c: "Correct! const is the right choice when the value won't change. In D3 you'll use const for almost everything.",
+      _: "Not quite. Since countryName won't change, const is the right keyword. let is for values you'll reassign; var is legacy and shouldn't be used."
+    },
+    q2: {
+      b: "Correct! 42 (without quotes) is a number. \"42\" (with quotes) is a string — they look similar but behave very differently in math operations.",
+      _: "Not quite. \"42\" with quotes is a string, and true is a boolean. 42 without quotes is the number."
+    },
+    q3: {
+      c: "Correct! Comparison operators always return a boolean. That boolean is what filter() will use to decide which bars to keep.",
+      _: "Not quite. Comparisons like > always return true or false — that's a boolean. This is exactly how data filtering works in D3."
+    }
+  };
+
+  function checkQuiz(qId, correctVal) {
+    const selected = document.querySelector(`input[name="${qId}"]:checked`);
+    const feedbackEl = document.getElementById(qId + '-feedback');
+    const options = document.querySelectorAll(`#${qId} .quiz-option`);
+
+    if (!selected) { feedbackEl.textContent = 'Select an answer first.'; feedbackEl.className = 'quiz-feedback show wrong'; return; }
+
+    const isCorrect = selected.value === correctVal;
+    const fb = quizFeedback[qId];
+
+    feedbackEl.textContent = isCorrect ? fb[correctVal] : fb['_'];
+    feedbackEl.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+
+    options.forEach(opt => {
+      const input = opt.querySelector('input');
+      if (input.value === correctVal) opt.classList.add('correct');
+      else if (input.checked && !isCorrect) opt.classList.add('wrong');
+    });
+  }
+
+  // ── Hint toggle ──
+  function toggleHint(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('show');
+  }
+
+  // ── Scroll progress bar ──
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  });
+
+  // ── Ctrl+Enter to run focused REPL ──
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      const ta = document.activeElement;
+      if (ta && ta.tagName === 'TEXTAREA') {
+        const id = ta.id.replace('-code', '');
+        runRepl(id);
+      }
+    }
+  });
+</script>
+</body>
+</html>

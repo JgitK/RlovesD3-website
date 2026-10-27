@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2: Arrays & Objects</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3352;
+      --accent: #5b8dee;
+      --accent2: #e87040;
+      --green: #4caf7d;
+      --red: #e85555;
+      --yellow: #f0c040;
+      --text: #dde3f0;
+      --muted: #7a82a0;
+      --code-bg: #12151e;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 0 0 80px;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .lesson-tag {
+      font-size: 12px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 4px; padding: 2px 8px;
+    }
+    header h1 { font-size: 22px; font-weight: 700; }
+    .mission-bar {
+      background: var(--surface2); border-bottom: 1px solid var(--border);
+      padding: 10px 48px; font-size: 13px; color: var(--muted);
+    }
+    .mission-bar span { color: var(--accent2); font-weight: 600; }
+    .content { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+    section { margin-top: 52px; }
+    h2 {
+      font-size: 20px; font-weight: 700; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 15px; font-weight: 700; color: var(--accent);
+      margin: 28px 0 8px; text-transform: uppercase; letter-spacing: .06em;
+    }
+    p { margin-bottom: 14px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      font-family: var(--font-mono); font-size: 13px;
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 3px; padding: 1px 6px; color: #c3e88d;
+    }
+    ul, ol { padding-left: 24px; margin: 12px 0; }
+    li { margin-bottom: 6px; }
+
+    .callout {
+      border-left: 3px solid var(--accent2); background: var(--surface2);
+      border-radius: 0 6px 6px 0; padding: 14px 18px; margin: 20px 0; font-size: 14.5px;
+    }
+    .callout.tip  { border-color: var(--green); }
+    .callout.warn { border-color: var(--yellow); }
+    .callout strong { color: var(--accent2); }
+    .callout.tip strong  { color: var(--green); }
+    .callout.warn strong { color: var(--yellow); }
+
+    .code-block {
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 8px; margin: 16px 0; overflow: hidden;
+    }
+    .code-block .label {
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 14px 6px; border-bottom: 1px solid var(--border);
+    }
+    pre {
+      font-family: var(--font-mono); font-size: 13.5px; line-height: 1.65;
+      padding: 16px 18px; overflow-x: auto; color: var(--text);
+    }
+    .kw   { color: #c792ea; }
+    .str  { color: #c3e88d; }
+    .num  { color: #f78c6c; }
+    .cmt  { color: #546e7a; font-style: italic; }
+    .fn   { color: #82aaff; }
+    .bool { color: #ff9cac; }
+    .key  { color: #ffcb6b; }
+
+    .repl { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; margin: 16px 0; overflow: hidden; }
+    .repl-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 14px; border-bottom: 1px solid var(--border);
+    }
+    .repl-header .label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .run-btn {
+      background: var(--accent); color: #fff; border: none; border-radius: 5px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      padding: 5px 14px; cursor: pointer; transition: background .15s;
+    }
+    .run-btn:hover { background: #4178d6; }
+    textarea {
+      width: 100%; background: transparent; border: none; outline: none;
+      font-family: var(--font-mono); font-size: 13.5px; line-height: 1.65;
+      color: var(--text); padding: 16px 18px; resize: vertical; min-height: 110px;
+    }
+    .repl-output {
+      border-top: 1px solid var(--border); padding: 10px 18px;
+      font-family: var(--font-mono); font-size: 13px; line-height: 1.7;
+      min-height: 40px; color: var(--green); white-space: pre-wrap;
+    }
+    .repl-output.has-error { color: var(--red); }
+    .repl-output.empty { color: var(--muted); font-style: italic; }
+
+    .quiz {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 24px; margin: 20px 0;
+    }
+    .quiz h4 { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-option {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+      transition: border-color .15s, background .15s; font-size: 14px;
+    }
+    .quiz-option:hover { border-color: var(--accent); background: var(--surface2); }
+    .quiz-option input[type="radio"] { accent-color: var(--accent); }
+    .quiz-option.correct { border-color: var(--green); background: rgba(76,175,125,.08); }
+    .quiz-option.wrong   { border-color: var(--red);   background: rgba(232,85,85,.08); }
+    .quiz-feedback { margin-top: 12px; font-size: 14px; display: none; }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { color: var(--green); }
+    .quiz-feedback.wrong   { color: var(--red); }
+    .check-btn {
+      margin-top: 14px; background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: border-color .15s;
+    }
+    .check-btn:hover { border-color: var(--accent); }
+
+    .exercise {
+      background: var(--surface); border: 1px solid var(--accent2);
+      border-radius: 10px; padding: 22px 24px; margin: 20px 0;
+    }
+    .exercise-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent2); margin-bottom: 10px;
+    }
+    .exercise h4 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+    .hint-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      border-radius: 5px; padding: 5px 12px; font-size: 12px; cursor: pointer;
+      margin-top: 8px; transition: color .15s, border-color .15s;
+    }
+    .hint-btn:hover { color: var(--text); border-color: var(--muted); }
+    .hint { display: none; margin-top: 10px; font-size: 13.5px; color: var(--muted); font-style: italic; }
+    .hint.show { display: block; }
+
+    /* index visualizer */
+    .array-visual {
+      display: flex; gap: 0; margin: 20px 0; font-family: var(--font-mono); font-size: 13px;
+    }
+    .array-cell {
+      border: 1px solid var(--border); min-width: 56px; text-align: center;
+    }
+    .array-cell .val {
+      padding: 10px 8px; background: var(--surface2); color: var(--str, #c3e88d);
+      border-bottom: 1px solid var(--border);
+    }
+    .array-cell .idx {
+      padding: 4px 8px; color: var(--muted); font-size: 11px;
+    }
+    .array-cell:first-child { border-radius: 6px 0 0 6px; }
+    .array-cell:last-child  { border-radius: 0 6px 6px 0; }
+
+    .progress-bar-wrap { height: 3px; background: var(--border); position: sticky; top: 0; z-index: 10; }
+    #progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width .3s; }
+
+    .nav-footer {
+      margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; font-size: 14px;
+    }
+    .pill {
+      display: inline-block; background: rgba(91,141,238,.15);
+      border: 1px solid rgba(91,141,238,.3); color: var(--accent);
+      font-size: 12px; font-weight: 600; padding: 2px 10px;
+      border-radius: 20px; margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<header>
+  <span class="lesson-tag">Lesson 2</span>
+  <h1>Arrays &amp; Objects</h1>
+</header>
+<div class="mission-bar">
+  Mission: <span>Build D3 data visualizations for your portfolio &amp; to impress your company</span>
+</div>
+
+<div class="content">
+
+  <section id="intro">
+    <h2>The shape of D3 data</h2>
+    <p>
+      Every D3 chart needs data. That data almost always looks like this:
+    </p>
+    <div class="code-block">
+      <div class="label">Typical D3 dataset</div>
+      <pre><span class="kw">const</span> data = [
+  { <span class="key">country</span>: <span class="str">"France"</span>,  <span class="key">population</span>: <span class="num">67</span> },
+  { <span class="key">country</span>: <span class="str">"Germany"</span>, <span class="key">population</span>: <span class="num">83</span> },
+  { <span class="key">country</span>: <span class="str">"Spain"</span>,   <span class="key">population</span>: <span class="num">47</span> },
+];</pre>
+    </div>
+    <p>
+      That structure has a name: an <strong>array of objects</strong>.
+      This lesson breaks it down — first arrays, then objects, then the combination that powers every D3 chart you'll ever build.
+    </p>
+  </section>
+
+  <!-- ── ARRAYS ── -->
+  <section id="arrays">
+    <h2>Arrays</h2>
+    <p>
+      An <strong>array</strong> is an ordered list of values. You create one with square brackets <code>[]</code>,
+      with items separated by commas.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Creating arrays</div>
+      <pre><span class="kw">const</span> populations = [<span class="num">67</span>, <span class="num">83</span>, <span class="num">47</span>, <span class="num">38</span>];
+<span class="kw">const</span> countries   = [<span class="str">"France"</span>, <span class="str">"Germany"</span>, <span class="str">"Spain"</span>, <span class="str">"Poland"</span>];
+<span class="kw">const</span> mixed       = [<span class="str">"Paris"</span>, <span class="num">67</span>, <span class="bool">true</span>]; <span class="cmt">// arrays can hold any type</span></pre>
+    </div>
+
+    <h3>Zero-based indexing</h3>
+    <p>
+      Each item in an array has a position called its <strong>index</strong>. Indexes start at <strong>0</strong>, not 1 — this trips everyone up at first.
+    </p>
+
+    <div class="array-visual">
+      <div class="array-cell"><div class="val">"France"</div><div class="idx">index 0</div></div>
+      <div class="array-cell"><div class="val">"Germany"</div><div class="idx">index 1</div></div>
+      <div class="array-cell"><div class="val">"Spain"</div><div class="idx">index 2</div></div>
+      <div class="array-cell"><div class="val">"Poland"</div><div class="idx">index 3</div></div>
+    </div>
+
+    <p>You access an item by writing the array name followed by the index in square brackets:</p>
+
+    <div class="repl" id="repl-1">
+      <div class="repl-header">
+        <span class="label">Try it</span>
+        <button class="run-btn" onclick="runRepl('repl-1')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-1-code">const countries = ["France", "Germany", "Spain", "Poland"];
+
+console.log(countries[0]);  // first item
+console.log(countries[2]);  // third item
+console.log(countries[3]);  // fourth (last) item
+console.log(countries[4]);  // past the end — what happens?</textarea>
+      <div class="repl-output empty" id="repl-1-output">Output will appear here…</div>
+    </div>
+
+    <div class="callout warn">
+      <strong>Accessing index 4 returns <code>undefined</code></strong> — not an error.
+      JavaScript silently gives you nothing when you go past the end of an array.
+      In D3, this usually means your data has fewer rows than you expected.
+    </div>
+
+    <h3>Useful array properties and methods</h3>
+    <p>Arrays come with built-in tools. You access them with a dot after the array name.</p>
+
+    <div class="repl" id="repl-2">
+      <div class="repl-header">
+        <span class="label">Try it</span>
+        <button class="run-btn" onclick="runRepl('repl-2')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-2-code">const populations = [67, 83, 47, 38];
+
+// .length — how many items?
+console.log(populations.length);       // 4
+
+// .includes() — is a value in the array?
+console.log(populations.includes(83)); // true
+console.log(populations.includes(99)); // false
+
+// .indexOf() — what position is a value at?
+console.log(populations.indexOf(47));  // 2
+
+// .join() — combine into a string
+console.log(populations.join(" | ")); // "67 | 83 | 47 | 38"</textarea>
+      <div class="repl-output empty" id="repl-2-output">Output will appear here…</div>
+    </div>
+
+    <div class="callout tip">
+      <strong>D3 context:</strong> <code>.length</code> tells you how many data points you have —
+      useful for sizing your chart. <code>.join()</code> is handy for building summary labels.
+      You'll also use <code>.indexOf()</code> when building color scales that map categories to colors.
+    </div>
+  </section>
+
+  <!-- ── OBJECTS ── -->
+  <section id="objects">
+    <h2>Objects</h2>
+    <p>
+      An <strong>object</strong> groups related values under named keys.
+      Where an array uses numbered positions, an object uses names.
+      You create one with curly braces <code>{}</code>.
+    </p>
+
+    <div class="code-block">
+      <div class="label">Creating an object</div>
+      <pre><span class="kw">const</span> france = {
+  <span class="key">country</span>:    <span class="str">"France"</span>,
+  <span class="key">population</span>: <span class="num">67</span>,
+  <span class="key">isEU</span>:       <span class="bool">true</span>,
+};</pre>
+    </div>
+
+    <p>Each line is a <strong>key-value pair</strong>: the key (left of <code>:</code>) is the name, the value (right) is the data.</p>
+
+    <h3>Accessing properties</h3>
+    <p>Two ways to read a property — use dot notation by default:</p>
+
+    <div class="repl" id="repl-3">
+      <div class="repl-header">
+        <span class="label">Try it</span>
+        <button class="run-btn" onclick="runRepl('repl-3')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-3-code">const france = {
+  country:    "France",
+  population: 67,
+  isEU:       true,
+};
+
+// Dot notation — clean, use this by default
+console.log(france.country);      // France
+console.log(france.population);   // 67
+
+// Bracket notation — use when the key is stored in a variable
+const key = "isEU";
+console.log(france[key]);         // true
+
+// Accessing a key that doesn't exist returns undefined
+console.log(france.gdp);          // undefined</textarea>
+      <div class="repl-output empty" id="repl-3-output">Output will appear here…</div>
+    </div>
+
+    <div class="callout">
+      <strong>D3 context:</strong> In D3 you'll write things like <code>d.population</code> constantly —
+      where <code>d</code> is one data point (one object) and <code>population</code> is the key you want.
+      That dot is dot notation.
+    </div>
+
+    <h3>Nested objects</h3>
+    <p>Objects can contain other objects. Chain the dots to go deeper:</p>
+
+    <div class="repl" id="repl-4">
+      <div class="repl-header">
+        <span class="label">Try it</span>
+        <button class="run-btn" onclick="runRepl('repl-4')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-4-code">const france = {
+  country: "France",
+  location: {
+    continent: "Europe",
+    capital: "Paris",
+    coords: [48.8566, 2.3522],  // an array inside an object!
+  },
+};
+
+console.log(france.location.capital);     // Paris
+console.log(france.location.continent);   // Europe
+console.log(france.location.coords[0]);   // 48.8566 (latitude)</textarea>
+      <div class="repl-output empty" id="repl-4-output">Output will appear here…</div>
+    </div>
+  </section>
+
+  <!-- ── ARRAYS OF OBJECTS ── -->
+  <section id="arrays-of-objects">
+    <h2>Arrays of objects — the D3 pattern</h2>
+    <p>
+      Now combine the two. In D3, your dataset is almost always an <strong>array of objects</strong>:
+      each object is one row of data, each key is one column.
+    </p>
+    <p>
+      Think of it as a spreadsheet: the array is the table, each object is a row, each key is a column header.
+    </p>
+
+    <div class="repl" id="repl-5">
+      <div class="repl-header">
+        <span class="label">Try it — the D3 data pattern</span>
+        <button class="run-btn" onclick="runRepl('repl-5')">&#9654; Run</button>
+      </div>
+      <textarea id="repl-5-code">const data = [
+  { country: "France",  population: 67, isEU: true  },
+  { country: "Germany", population: 83, isEU: true  },
+  { country: "Spain",   population: 47, isEU: true  },
+  { country: "Norway",  population:  5, isEU: false },
+];
+
+// How many rows?
+console.log(data.length);               // 4
+
+// First row (first object)
+console.log(data[0]);
+
+// Second row's country name
+console.log(data[1].country);           // Germany
+
+// Last row's population
+console.log(data[3].population);        // 5
+
+// Is Norway in the EU?
+console.log(data[3].isEU);             // false</textarea>
+      <div class="repl-output empty" id="repl-5-output">Output will appear here…</div>
+    </div>
+
+    <p>
+      Notice the pattern: <code>data[rowIndex].keyName</code>.
+      Array brackets to pick the row, dot notation to pick the column.
+      You'll write this hundreds of times in D3.
+    </p>
+  </section>
+
+  <!-- ── QUIZ ── -->
+  <section id="quiz">
+    <h2>Check your understanding</h2>
+
+    <div class="quiz" id="q1">
+      <h4>1. Given <code>const scores = [10, 20, 30]</code> — what does <code>scores[1]</code> return?</h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> <code>10</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> <code>20</code></label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> <code>30</code></label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q1','b')">Check answer</button>
+      <div class="quiz-feedback" id="q1-feedback"></div>
+    </div>
+
+    <div class="quiz" id="q2">
+      <h4>2. You have an object <code>const d = { city: "Berlin", pop: 3.7 }</code>. How do you read the population?</h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> <code>d[pop]</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> <code>d.pop</code></label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> <code>d(pop)</code></label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q2','b')">Check answer</button>
+      <div class="quiz-feedback" id="q2-feedback"></div>
+    </div>
+
+    <div class="quiz" id="q3">
+      <h4>3. Given the dataset below, what does <code>data[2].country</code> return?
+        <br><br><code>const data = [{ country: "A" }, { country: "B" }, { country: "C" }]</code>
+      </h4>
+      <div class="quiz-options">
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> <code>"A"</code></label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> <code>"B"</code></label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> <code>"C"</code></label>
+      </div>
+      <button class="check-btn" onclick="checkQuiz('q3','c')">Check answer</button>
+      <div class="quiz-feedback" id="q3-feedback"></div>
+    </div>
+  </section>
+
+  <!-- ── EXERCISES ── -->
+  <section id="exercises">
+    <h2>Exercises</h2>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 1</div>
+      <h4>Access first and last</h4>
+      <p>
+        Given the array below, log the first item and the last item.
+        Do it without hardcoding <code>[3]</code> for the last one — use <code>.length</code> to calculate the last index.
+      </p>
+      <div class="repl" id="ex1">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex1')">&#9654; Run</button>
+        </div>
+        <textarea id="ex1-code">const cities = ["Tokyo", "Delhi", "Shanghai", "Lagos"];
+
+// Log the first item:
+
+// Log the last item (use .length, don't hardcode the index):
+</textarea>
+        <div class="repl-output empty" id="ex1-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Show hint</button>
+      <div class="hint" id="hint1">The last index is always <code>array.length - 1</code>. If there are 4 items, the last index is 3.</div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 2</div>
+      <h4>Build a dataset</h4>
+      <p>
+        Create an array of objects representing 3 cities. Each object should have:
+        <code>name</code> (string), <code>population</code> (number in millions), <code>isCapital</code> (boolean).
+        Then log the population of the second city.
+      </p>
+      <div class="repl" id="ex2">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex2')">&#9654; Run</button>
+        </div>
+        <textarea id="ex2-code">// Build your dataset here:
+const cities = [
+
+];
+
+// Log the population of the second city:
+</textarea>
+        <div class="repl-output empty" id="ex2-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Show hint</button>
+      <div class="hint" id="hint2">Each object looks like <code>{ name: "Tokyo", population: 14, isCapital: true }</code>. Access the second with <code>cities[1].population</code>.</div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-tag">Exercise 3 — stretch</div>
+      <h4>Navigate a nested structure</h4>
+      <p>
+        The object below mirrors a real-world API response.
+        Log: the chart title, the population of the second data point, and the first color in the palette.
+      </p>
+      <div class="repl" id="ex3">
+        <div class="repl-header">
+          <span class="label">Your code</span>
+          <button class="run-btn" onclick="runRepl('ex3')">&#9654; Run</button>
+        </div>
+        <textarea id="ex3-code">const chart = {
+  title: "EU Populations",
+  data: [
+    { country: "France",  population: 67 },
+    { country: "Germany", population: 83 },
+    { country: "Spain",   population: 47 },
+  ],
+  config: {
+    palette: ["#5b8dee", "#e87040", "#4caf7d"],
+    width: 600,
+  },
+};
+
+// Log the chart title:
+
+// Log the population of the second data point:
+
+// Log the first color in the palette:
+</textarea>
+        <div class="repl-output empty" id="ex3-output">Output will appear here…</div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('hint3')">Show hint</button>
+      <div class="hint" id="hint3">
+        Title: <code>chart.title</code><br>
+        Second data point population: <code>chart.data[1].population</code><br>
+        First color: <code>chart.config.palette[0]</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SUMMARY ── -->
+  <section id="summary">
+    <h2>What you learned</h2>
+    <ul>
+      <li>Arrays are ordered lists created with <code>[]</code>. Items are accessed by index, starting at <strong>0</strong>.</li>
+      <li><code>.length</code>, <code>.includes()</code>, <code>.indexOf()</code>, <code>.join()</code> are your most-used array tools.</li>
+      <li>Objects are collections of named properties created with <code>{}</code>. Use dot notation (<code>d.key</code>) to read them.</li>
+      <li>An <strong>array of objects</strong> is the standard D3 data format — one object per data point, one key per column.</li>
+      <li>The pattern <code>data[i].key</code> gets you any value in any dataset.</li>
+    </ul>
+
+    <div class="callout tip">
+      <strong>Ask your teacher:</strong> Paste any confusion or broken code back into Claude Code.
+      The next lesson covers functions and arrow functions — the glue that connects your data to D3.
+    </div>
+  </section>
+
+  <div class="nav-footer">
+    <a href="0001-variables-and-data-types.html">← Lesson 1: Variables &amp; Data Types</a>
+    <span style="color:var(--muted); font-size:13px; text-align:right;">Next: Functions &amp; Arrow Functions →<br><em style="font-size:12px;">(unlocks after exercises)</em></span>
+  </div>
+
+</div>
+
+<script>
+  function runRepl(id) {
+    const code = document.getElementById(id + '-code').value;
+    const outputEl = document.getElementById(id + '-output');
+    const logs = [];
+    const origLog = console.log;
+    console.log = (...args) => {
+      logs.push(args.map(a => {
+        if (typeof a === 'object' && a !== null) return JSON.stringify(a, null, 2);
+        return String(a);
+      }).join(' '));
+    };
+    try {
+      eval(code);
+      outputEl.textContent = logs.length ? logs.join('\n') : '(no output)';
+      outputEl.className = 'repl-output';
+    } catch (e) {
+      outputEl.textContent = '⚠ ' + e.message;
+      outputEl.className = 'repl-output has-error';
+    } finally {
+      console.log = origLog;
+    }
+  }
+
+  const quizFeedback = {
+    q1: {
+      b: "Correct! Arrays are zero-indexed, so index 1 is the second item (20). This catches everyone at first — just remember: first item is always [0].",
+      _: "Not quite. Arrays start counting at 0, so scores[0] = 10, scores[1] = 20, scores[2] = 30."
+    },
+    q2: {
+      b: "Correct! Dot notation: d.pop reads the 'pop' property. You'll write patterns exactly like this in every D3 chart.",
+      _: "Not quite. d[pop] without quotes would look for a variable named pop. d(pop) is function call syntax. The right answer is d.pop — dot notation."
+    },
+    q3: {
+      c: "Correct! Index 2 is the third item (zero-indexed), which is { country: \"C\" }. Then .country gives you the string \"C\".",
+      _: "Not quite. data[0] = A, data[1] = B, data[2] = C. Index 2 is the third item — remember zero-based indexing."
+    }
+  };
+
+  function checkQuiz(qId, correctVal) {
+    const selected = document.querySelector(`input[name="${qId}"]:checked`);
+    const feedbackEl = document.getElementById(qId + '-feedback');
+    const options = document.querySelectorAll(`#${qId} .quiz-option`);
+    if (!selected) { feedbackEl.textContent = 'Select an answer first.'; feedbackEl.className = 'quiz-feedback show wrong'; return; }
+    const isCorrect = selected.value === correctVal;
+    feedbackEl.textContent = isCorrect ? quizFeedback[qId][correctVal] : quizFeedback[qId]['_'];
+    feedbackEl.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+    options.forEach(opt => {
+      const input = opt.querySelector('input');
+      if (input.value === correctVal) opt.classList.add('correct');
+      else if (input.checked && !isCorrect) opt.classList.add('wrong');
+    });
+  }
+
+  function toggleHint(id) {
+    document.getElementById(id).classList.toggle('show');
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  });
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      const ta = document.activeElement;
+      if (ta && ta.tagName === 'TEXTAREA') runRepl(ta.id.replace('-code', ''));
+    }
+  });
+</script>
+</body>
+</html>
