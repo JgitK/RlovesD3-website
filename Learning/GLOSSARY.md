@@ -44,3 +44,21 @@ The numeric position of an item in an array. Zero-indexed: the first item is at 
 
 **console.log**:
 A built-in function that prints a value to the browser's developer console. The primary tool for checking your work.
+
+## CSS terms
+
+**Rule** (CSS):
+A selector plus a block of declarations in braces: `header { background: lightblue; }`.
+_Avoid_: style, command
+
+**Selector**:
+The part of a rule that picks which elements it applies to. A *type selector* is a bare tag name (`nav`, `rect`).
+
+**Declaration**:
+One `property: value;` pair inside a rule's braces. It uses a colon, not `=`.
+
+**Property / Value**:
+The property names what to change (`background`). The value says what to change it to (`lightblue`).
+
+**Landmark**:
+A page-level structural element: `header`, `nav`, `main`, `footer` (with `article` inside `main`). See the house analogy in Lesson 3.
