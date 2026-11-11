@@ -1,0 +1,20 @@
+date,course,lesson,concept,step,prompt_summary,correct,confidence,hint_level,mistake,root_cause_tag
+2026-10-27,react-graph-gallery,html-elements,html-element-anatomy,warmup,"label element/tag/attribute/content of <a>",partial,4.5,0,"called href the tag; element described as just <a></a>",html-element-anatomy
+2026-10-27,react-graph-gallery,html-elements,html-element-anatomy,warmup,"where do <title> and <h1> go",partial,4,0,"didn't say title shows in browser tab; wrote <h>",
+2026-10-27,react-graph-gallery,html-elements,html-attributes,warmup,"set img width to 300",false,3.5,4,"used {{ braces, px unit, and a closing tag with content",js-braces-meanings
+2026-10-27,react-graph-gallery,html-elements,html-attributes,warmup,"link to d3js.org opening in new tab",false,4,4,"omitted target; then wrote value=\"_blank\" and typo hred",html-invented-tags
+2026-10-27,react-graph-gallery,html-elements,html-semantic-elements,predict,"strong vs b",partial,2,0,"said strong is recognized as bold rather than as important",
+2026-10-27,react-graph-gallery,html-elements,html-nesting,predict,"numbered list with nested bullets in step 2",false,3.5,4,"used <sub>; loose <li>s with no <ul>; dropped closing tags",html-nesting
+2026-10-27,react-graph-gallery,html-elements,html-nesting,run,"predict rendered numbers and bullets",true,5,0,,
+2026-10-27,react-graph-gallery,html-elements,html-nesting,perturb,"inner ul changed to ol",true,5,0,,
+2026-10-27,react-graph-gallery,html-elements,html-semantic-elements,predict,"header/nav/main/article/footer for a blog page",partial,4,1,"used body for main, span for article, invented <footnote>",html-invented-tags
+2026-10-27,react-graph-gallery,html-elements,html-block-vs-inline,predict,"span span div div span layout",partial,3.5,0,"swapped block and inline behaviour",
+2026-10-27,react-graph-gallery,html-elements,html-block-vs-inline,perturb,"a wrapping a div: own line?",true,4.5,0,,
+2026-10-27,react-graph-gallery,html-elements,html-block-vs-inline,predict,"div inside p",false,4,0,"thought the browser ignores the div; it auto-closes the p",
+2026-10-27,react-graph-gallery,html-elements,html-tables,predict,"2-col table with thead/tbody",false,3.5,4,"built column-wise; invented <tbl> and <theader>; text directly in tr",html-invented-tags
+2026-10-27,react-graph-gallery,html-elements,html-details,predict,"collapsible section that starts open",false,2.5,4,"used nav and list, then invented <dropdown>",html-invented-tags
+2026-10-27,react-graph-gallery,html-elements,html-block-vs-inline,exit,"span vs div to color one word",partial,3,0,"didn't write the line; missed the p auto-close consequence",
+2026-10-27,react-graph-gallery,html-elements,html-attributes,exit,"footer with copyright and new-tab GitHub link",partial,4,0,"no target=_blank; </a href>; &copywrite",html-element-anatomy
+2026-10-27,react-graph-gallery,html-elements,html-semantic-elements,rebuild,"About Me page from blank file: page skeleton",partial,4,3,"used <header> for <head>; article wrapped main; crossed div/main tags; stray </div>",html-page-skeleton
+2026-10-27,react-graph-gallery,html-elements,html-details,rebuild,"About Me page: FAQ starts open",false,3,1,"forgot the open attribute",
+2026-10-27,react-graph-gallery,html-elements,html-nesting,rebuild,"About Me page: nested list, tables, img, new-tab link",true,4,0,,
